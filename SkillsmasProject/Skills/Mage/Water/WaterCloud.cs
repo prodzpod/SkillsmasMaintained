@@ -162,7 +162,7 @@ namespace Skillsmas.Skills.Mage.Water
 
         public override void AfterContentPackLoaded()
         {
-            waterCloudProjectilePrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>().Add(DamageTypes.Revitalizing.revitalizingDamageType);
+            waterCloudProjectilePrefab.AddComponent<ProjectileDamage>().damageType.AddModdedDamageType(DamageTypes.Revitalizing.revitalizingDamageType);
         }
 
         public class PrepWaterCloud : PrepCustomWall
@@ -183,7 +183,7 @@ namespace Skillsmas.Skills.Mage.Water
 
             public override void CreateWall(Vector3 position, Quaternion rotation)
             {
-                if (isAuthority)
+                if (NetworkServer.active)
                 {
                     ProjectileManager.instance.FireProjectile(new FireProjectileInfo
                     {

@@ -166,7 +166,7 @@ namespace Skillsmas.Skills.Toolbot
             public override void FixedUpdate()
             {
                 base.FixedUpdate();
-                if (fixedAge >= duration && isAuthority)
+                if (fixedAge >= duration)
                 {
                     if (!buffGranted)
                     {
@@ -179,7 +179,7 @@ namespace Skillsmas.Skills.Toolbot
                             characterBody.AddTimedBuff(SkillsmasContent.Buffs.Skillsmas_ToolbotUpdated, buffDuration);
                         }
                     }
-                    outer.SetNextStateToMain();
+                    if (isAuthority) outer.SetNextStateToMain();
                     return;
                 }
 

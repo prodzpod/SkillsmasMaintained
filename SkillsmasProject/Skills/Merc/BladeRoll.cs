@@ -246,7 +246,7 @@ namespace Skillsmas.Skills.Merc
                         EffectManager.SpawnEffect(endEffectPrefab, new EffectData
                         {
                             origin = characterBody.corePosition
-                        }, false);
+                        }, true);
                     }
                     PlayAnimation("FullBody, Override", "WhirlwindAirExit");
                 }

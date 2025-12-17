@@ -91,14 +91,14 @@ namespace Skillsmas.Skills.Croco
             SkillsmasContent.Resources.entityStateTypes.Add(typeof(FirePoisonExtensionProjectile));
 
             projectilePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Croco/CrocoDiseaseProjectile.prefab").WaitForCompletion(), "Skillsmas_PoisonExtensionProjectile");
-            projectilePrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>().Add(poisonExtensionFirstHitDamageType);
+            projectilePrefab.AddComponent<ProjectileDamage>().damageType.AddModdedDamageType(poisonExtensionFirstHitDamageType);
             Object.Destroy(projectilePrefab.GetComponent<ProjectileProximityBeamController>());
             Object.Destroy(projectilePrefab.GetComponent<ProjectileStickOnImpact>());
             var impactExplosion = projectilePrefab.GetComponent<ProjectileImpactExplosion>();
             var singleTargetImpact = projectilePrefab.AddComponent<ProjectileSingleTargetImpact>();
             singleTargetImpact.impactEffect = impactExplosion.impactEffect;
             singleTargetImpact.destroyOnWorld = true;
-            singleTargetImpact.hitSoundString = "Play_item_proc_behemoth";
+            singleTargetImpact.hitSound = new() { eventName = "Play_item_proc_behemoth" };
             Object.Destroy(impactExplosion);
             SkillsmasContent.Resources.projectilePrefabs.Add(projectilePrefab);
 
@@ -209,7 +209,7 @@ namespace Skillsmas.Skills.Croco
                             var body = healthComponent.body;
                             foreach (var x in stackInfo)
                             {
-                                DotController.InflictDot(body.gameObject, attacker, x.dotIndex, x.duration);
+                                DotController.InflictDot(body.gameObject, attacker, target, x.dotIndex, x.duration);
                             }
                         }
                     }

@@ -125,7 +125,7 @@ namespace Skillsmas.Skills.Huntress
                 var projectileSingleTargetImpact = projectilePrefab.AddComponent<ProjectileSingleTargetImpact>();
                 projectileSingleTargetImpact.destroyOnWorld = true;
                 projectileSingleTargetImpact.impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Huntress/OmniImpactVFXHuntress.prefab").WaitForCompletion();
-                projectileSingleTargetImpact.hitSoundString = "Play_MULT_m1_smg_impact";
+                projectileSingleTargetImpact.hitSound = new() { eventName = "Play_MULT_m1_smg_impact" };
                 projectilePrefab.AddComponent<SkillsmasAlignToRigidbodyVelocity>();
 
                 SkillsmasContent.Resources.projectilePrefabs.Add(projectilePrefab);

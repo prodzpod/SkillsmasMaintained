@@ -7,6 +7,10 @@ using MysticsRisky2Utils;
 using R2API;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
+using System;
+using EntityStates.Mage.Weapon;
 
 namespace Skillsmas.Skills.Mage.Ice
 {
@@ -147,6 +151,18 @@ namespace Skillsmas.Skills.Mage.Ice
             SkillsmasContent.Resources.projectilePrefabs.Add(FireIceBolt.projectilePrefabStatic);
 
             FireIceBolt.muzzleflashEffectPrefabStatic = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Mage/MuzzleflashMageIce.prefab").WaitForCompletion();
+            IL.EntityStates.Mage.Weapon.FireFireBolt.FireGauntlet += (il) =>
+            {
+                ILCursor c = new(il);
+                c.GotoNext(x => x.MatchStfld<FireProjectileInfo>(nameof(FireProjectileInfo.damageTypeOverride)));
+                c.Index -= 1;
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<Func<DamageTypeCombo, FireFireBolt, DamageTypeCombo>>((combo, self) =>
+                {
+                    if (self is FireIceBolt) return new(DamageType.Freeze2s, DamageTypeExtended.Generic, DamageSource.Primary);
+                    return combo;
+                });
+            };
         }
 
         public class FireIceBolt : EntityStates.Mage.Weapon.FireFireBolt

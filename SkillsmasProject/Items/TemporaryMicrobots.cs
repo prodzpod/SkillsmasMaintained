@@ -41,7 +41,7 @@ namespace Skillsmas.Items
             var result = orig(self);
             if (self.attachedBody && self.attachedBody.inventory)
             {
-                result += self.attachedBody.inventory.GetItemCount(itemDef);
+                result += self.attachedBody.inventory.GetItemCountEffective(itemDef);
             }
             return result;
         }
@@ -66,7 +66,7 @@ namespace Skillsmas.Items
                 if (fixedAge >= Skills.Captain.LendMicrobots.duration)
                 {
                     fixedAge -= Skills.Captain.LendMicrobots.duration;
-                    body.inventory.RemoveItem(GetItemDef());
+                    body.inventory.RemoveItemPermanent(GetItemDef());
                 }
             }
 

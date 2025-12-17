@@ -163,7 +163,7 @@ namespace Skillsmas.Skills.Mage.Rock
 
         public override void AfterContentPackLoaded()
         {
-            ThrowRockBomb.projectilePrefabStatic.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>().Add(DamageTypes.Crystallize.crystallizeDamageType);
+            ThrowRockBomb.projectilePrefabStatic.AddComponent<ProjectileDamage>().damageType.AddModdedDamageType(DamageTypes.Crystallize.crystallizeDamageType);
             ThrowRockBomb.projectilePrefabStatic.GetComponent<ProjectileOverlapAttack>().impactEffect = RockBolt.impactEffectPrefab;
         }
 

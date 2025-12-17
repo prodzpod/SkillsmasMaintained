@@ -125,7 +125,7 @@ namespace Skillsmas.Skills.Bandit
 
                 if (EntityStates.Bandit2.StealthMode.smokeBombEffectPrefab)
                 {
-                    EffectManager.SimpleMuzzleFlash(EntityStates.Bandit2.StealthMode.smokeBombEffectPrefab, gameObject, EntityStates.Bandit2.StealthMode.smokeBombMuzzleString, false);
+                    EffectManager.SimpleMuzzleFlash(EntityStates.Bandit2.StealthMode.smokeBombEffectPrefab, gameObject, EntityStates.Bandit2.StealthMode.smokeBombMuzzleString, true);
                 }
 
                 if (NetworkServer.active)

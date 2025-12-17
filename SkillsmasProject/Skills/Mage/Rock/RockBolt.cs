@@ -7,6 +7,10 @@ using MysticsRisky2Utils;
 using R2API;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
+using System;
+using EntityStates.Mage.Weapon;
 
 namespace Skillsmas.Skills.Mage.Rock
 {
@@ -151,14 +155,31 @@ namespace Skillsmas.Skills.Mage.Rock
             SkillsmasContent.Resources.projectilePrefabs.Add(FireRockBolt.projectilePrefabStatic);
 
             FireRockBolt.muzzleflashEffectPrefabStatic = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mage/MuzzleflashMageFire.prefab").WaitForCompletion();
+            IL.EntityStates.Mage.Weapon.FireFireBolt.FireGauntlet += (il) =>
+            {
+                ILCursor c = new(il);
+                c.GotoNext(x => x.MatchStfld<FireProjectileInfo>(nameof(FireProjectileInfo.damageTypeOverride)));
+                c.Index -= 1;
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<Func<DamageTypeCombo, FireFireBolt, DamageTypeCombo>>((combo, self) =>
+                {
+                    if (self is FireRockBolt)
+                    {
+                        DamageTypeCombo c = new(DamageType.Generic, DamageTypeExtended.Generic, DamageSource.Primary);
+                        c.AddModdedDamageType(DamageTypes.Crystallize.crystallizeDamageType);
+                        return c;
+                    }
+                    return combo;
+                });
+            };
         }
 
         public override void AfterContentPackLoaded()
         {
-            FireRockBolt.projectilePrefabStatic.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>().Add(DamageTypes.Crystallize.crystallizeDamageType);
+            FireRockBolt.projectilePrefabStatic.AddComponent<ProjectileDamage>().damageType.AddModdedDamageType(DamageTypes.Crystallize.crystallizeDamageType);
         }
 
-        public class FireRockBolt : EntityStates.Mage.Weapon.FireFireBolt
+        public class FireRockBolt : FireFireBolt
         {
             public static GameObject projectilePrefabStatic;
             public static GameObject muzzleflashEffectPrefabStatic;

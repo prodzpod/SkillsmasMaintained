@@ -208,7 +208,7 @@ namespace Skillsmas.Skills.Merc
 
                 stopwatch2 += Time.fixedDeltaTime;
                 attackStopwatch2 += Time.fixedDeltaTime;
-
+                if (!NetworkServer.active) return;
                 var attackInterval = 1f / damageFrequency / attackSpeedStat;
                 if (attackStopwatch2 >= attackInterval)
                 {
@@ -229,7 +229,7 @@ namespace Skillsmas.Skills.Merc
                                 hitEffectPrefab,
                                 target.transform.position,
                                 new Vector3(randomCircle.x, 0f, randomCircle.y),
-                                false
+                                true
                             );
 
                             var targetTransform = hurtBoxGroup.transform;
@@ -246,6 +246,7 @@ namespace Skillsmas.Skills.Merc
                                 var damageInfo = new DamageInfo
                                 {
                                     damage = damage / 100f * damageStat,
+                                    damageType = new(DamageTypeCombo.Generic, DamageTypeExtended.Generic, DamageSource.Special),
                                     attacker = gameObject,
                                     procCoefficient = procCoefficient,
                                     position = target.transform.position,

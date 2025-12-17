@@ -175,9 +175,9 @@ namespace Skillsmas.Skills.Mage.Rock
 
         public override void AfterContentPackLoaded()
         {
-            var moddedDamageTypeHolder = projectilePrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
-            moddedDamageTypeHolder.Add(DamageTypes.Crystallize.crystallizeDamageType);
-            moddedDamageTypeHolder.Add(petrifyDamageType);
+            var moddedDamageTypeHolder = projectilePrefab.AddComponent<ProjectileDamage>().damageType;
+            moddedDamageTypeHolder.AddModdedDamageType(DamageTypes.Crystallize.crystallizeDamageType);
+            moddedDamageTypeHolder.AddModdedDamageType(petrifyDamageType);
             PetrifiedState.petrifiedEffectPrefab = RockBolt.impactEffectPrefab;
         }
 

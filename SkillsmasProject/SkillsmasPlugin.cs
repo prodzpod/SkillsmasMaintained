@@ -14,7 +14,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 [module: UnverifiableCode]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 namespace Skillsmas
 {
@@ -33,7 +32,7 @@ namespace Skillsmas
     {
         public const string PluginGUID = "com.themysticsword.skillsmas";
         public const string PluginName = "Skillsmas";
-        public const string PluginVersion = "1.3.8";
+        public const string PluginVersion = "1.3.9";
 
         public static System.Reflection.Assembly executingAssembly;
         internal static System.Type declaringType;
@@ -81,7 +80,7 @@ namespace Skillsmas
                 if (System.IO.File.Exists(iconPath))
                 {
                     var iconTexture = new Texture2D(2, 2);
-                    iconTexture.LoadImage(System.IO.File.ReadAllBytes(iconPath));
+                    iconTexture.LoadRawTextureData(System.IO.File.ReadAllBytes(iconPath));
                     iconSprite = Sprite.Create(iconTexture, new Rect(0, 0, iconTexture.width, iconTexture.height), new Vector2(0, 0), 100);
                 }
                 MysticsRisky2Utils.SoftDependencies.SoftDependencyManager.RiskOfOptionsDependency.RegisterModInfo(PluginGUID, PluginName, "Adds new skills. Has nothing to do with Christmas. Sorry.", iconSprite);
